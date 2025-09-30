@@ -16,5 +16,4 @@ Sub show_menu()
     
     MsgBox "Arquivo será salvo em: " & caminhoFinal
     
-    Menu.Show
 End Sub
