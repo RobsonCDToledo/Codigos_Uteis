@@ -1,0 +1,20 @@
+Dim usuarioPC As String
+Dim caminhoBase As String
+
+Sub show_menu()
+    usuarioPC = Environ("USERNAME")
+    
+    ' Pega o caminho do OneDrive do usuário logado
+    caminhoBase = Environ("OneDrive")
+    
+    ' Se for OneDrive corporativo, use:
+    ' caminhoBase = Environ("OneDriveCommercial")
+    
+    ' Agora você pode montar o caminho completo
+    Dim caminhoFinal As String
+    caminhoFinal = caminhoBase & "\sua pasta aqui" ' final do caminho da sua pasta 
+    
+    MsgBox "Arquivo será salvo em: " & caminhoFinal
+    
+    Menu.Show
+End Sub
