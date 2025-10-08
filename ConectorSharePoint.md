@@ -94,3 +94,37 @@ Documente a hierarquia de acesso dentro do seu modelo ou README.md.
 | ❌ Tradicional | `SharePoint.Files()` | Lento, carrega todos os arquivos do site | ❌ Não |
 | ✅ Otimizado | `SharePoint.Contents()` | Rápido, acessa apenas o necessário | ✅ Sim |
 
+
+# Versão Mais otimizada
+
+Caso não precise verificar etapas intermediarias como nome do arquivo, pastas etc. Você pode resumir todas as etapas da versão anterior proposta  
+em uma unica etapa mais otimizada ainda conforme abaixo:
+
+```PowerQuery
+let
+    Fonte = 
+        Excel.Workbook(
+            SharePoint.Contents(pLinkSiteSharepoint, [ApiVersion = 15])
+                {[Name="Biblioteca principal"]}[Content]
+                {[Name="SubPasta1"]}[Content]
+                {[Name="SubPasta2"]}[Content]
+                {[Name="SubPasta3"]}[Content]
+                {[Name="SubPasta4"]}[Content]            // Pasta Final
+                {[Name="SeuArquivo.xlsx"]}[Content],     // Arquivo que você vai trabalhar 
+                // Neste exemplo vamos utilizar um arquivo .xlsx porem este conector possui outras versões .csv .txt etc.
+        // Lê o conteúdo do Excel direto do binário retornado acima
+        true){[Item="AbaDoArquivo", Kind="Sheet"]}[Data]
+in
+    Fonte
+
+```
+
+
+
+
+
+
+
+
+
+
