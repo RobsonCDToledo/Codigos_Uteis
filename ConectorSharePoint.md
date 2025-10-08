@@ -27,11 +27,11 @@ Recomendo executar o conector apenas até o primeiro nível (SharePoint.Contents
 ```PowerQuery
 let
     Fonte =
-        SharePoint.Contents(pLinkSiteSharepoint, [ApiVersion = 15]) /* Conector base do site */
-            {[Name="Shared Documents"]}[Content]                    /* Biblioteca principal */
-            {[Name="Modelos - Power BI"]}[Content]                  /* Subpasta 1 */
-            {[Name="_PBI - Direct BigQuery"]}[Content]              /* Subpasta 2 */
-            /* Acrescente mais níveis se necessário */
+        SharePoint.Contents(pLinkSiteSharepoint, [ApiVersion = 15]) // Conector base do site 
+            {[Name="Biblioteca principal"]}[Content]                // Biblioteca principal 
+            {[Name="Subpasta 1"]}[Content]                          // Subpasta 1
+            {[Name="Subpasta 2"]}[Content]                          // Subpasta 2
+            // Acrescente mais níveis se necessário 
 in
     Fonte
 ```
@@ -57,18 +57,20 @@ Exemplo:
 
 ```PowerQuery
 let
-    Fonte =
+    Fonte = 
         SharePoint.Contents(pLinkSiteSharepoint, [ApiVersion = 15])
-            {[Name="Shared Documents"]}[Content]
-            {[Name="Sub_Pasta1"]}[Content]
-            {[Name="Sub_Pasta2"]}[Content]
-            {[Name="Sub_Pasta3"]}[Content],
+            {[Name="Biblioteca principal"]}[Content]
+            {[Name="SubPasta1"]}[Content]
+            {[Name="SubPasta2"]}[Content]
+            {[Name="SubPasta3"]}[Content]
+            {[Name="SubPasta4"]}[Content]            // Pasta Final
+            {[Name="SeuArquivo.xlsx"]}[Content]      // Arquivo que você vai trabalhar 
+            ,   // Neste exemplo vamos utilizar um arquivo .xlsx porem este conector possui outras versões .csv .txt etc.
+    // Lê o conteúdo do Excel direto do binário retornado acima
+    Planilhas = Excel.Workbook(Fonte, true),
 
-    /*Leitura do arquivo Excel sem parâmetros automáticos*/
-    Planilhas = Table.AddColumn(Fonte, "ExcelTables", each Excel.Workbook([Content], true)),
-
-    /*Seleciona a planilha desejada*/
-    Dados = Planilhas{[Item="SuaPlanilha", Kind="AbaDaPlanilha"]}[Data]
+    // Expande as planilhas e seleciona a aba "Base Detalhada"
+    Dados = Planilhas{[Item="AbaDoArquivo", Kind="Sheet"]}[Data]
 in
     Dados
 ```
@@ -91,3 +93,4 @@ Documente a hierarquia de acesso dentro do seu modelo ou README.md.
 |:--------|:-------------|:------------|:-------------|
 | ❌ Tradicional | `SharePoint.Files()` | Lento, carrega todos os arquivos do site | ❌ Não |
 | ✅ Otimizado | `SharePoint.Contents()` | Rápido, acessa apenas o necessário | ✅ Sim |
+
