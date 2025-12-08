@@ -11,7 +11,7 @@ Nome do parâmetro: pLinkSiteSharepoint
 
 ### Valor:
 ```PowerQuery
-https://grupocimed.sharepoint.com/sites/SeuSite
+https://seudominio.sharepoint.com/sites/SeuSite
 ``` 
 
 ### 💡 Dica:
